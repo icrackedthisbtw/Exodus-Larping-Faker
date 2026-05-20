@@ -1,12 +1,15 @@
 {
   "profile": {
     "name": "My Exodus Wallet",
-    "avatar": ""
+    "initial": "E",
+    "avatarColor": "#e91e8c"
   },
   "portfolio": {
     "totalUSD": 0,
     "change24h": 2.84,
-    "change24hUSD": 1243.56
+    "change24hUSD": 1243.56,
+    "highestBalance": 78432.18,
+    "createdAt": "2022-01-15T00:00:00Z"
   },
   "assets": [
     {
@@ -18,7 +21,9 @@
       "change24h": 3.12,
       "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
       "color": "#F7931A",
-      "network": "Bitcoin"
+      "network": "Bitcoin",
+      "apy": null,
+      "iconUrl": "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
     },
     {
       "id": "ethereum",
@@ -29,7 +34,9 @@
       "change24h": 4.67,
       "address": "0x742d35Cc6634C0532925a3b8D4C9b3A2e5Bfdb3c",
       "color": "#627EEA",
-      "network": "Ethereum"
+      "network": "Ethereum",
+      "apy": 1.8,
+      "iconUrl": "https://assets.coingecko.com/coins/images/279/small/ethereum.png"
     },
     {
       "id": "solana",
@@ -40,7 +47,9 @@
       "change24h": 6.21,
       "address": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgHkv",
       "color": "#9945FF",
-      "network": "Solana"
+      "network": "Solana",
+      "apy": 5.4,
+      "iconUrl": "https://assets.coingecko.com/coins/images/4128/small/solana.png"
     },
     {
       "id": "xrp",
@@ -51,7 +60,9 @@
       "change24h": -1.34,
       "address": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
       "color": "#346AA9",
-      "network": "XRP Ledger"
+      "network": "XRP Ledger",
+      "apy": null,
+      "iconUrl": "https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png"
     },
     {
       "id": "usdt",
@@ -62,7 +73,9 @@
       "change24h": 0.02,
       "address": "0x742d35Cc6634C0532925a3b8D4C9b3A2e5Bfdb3c",
       "color": "#26A17B",
-      "network": "Ethereum (ERC-20)"
+      "network": "Ethereum (ERC-20)",
+      "apy": null,
+      "iconUrl": "https://assets.coingecko.com/coins/images/325/small/Tether.png"
     },
     {
       "id": "cardano",
@@ -72,8 +85,10 @@
       "priceUSD": 0.4621,
       "change24h": 2.15,
       "address": "addr1qx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwqfjkjv7",
-      "color": "#0D1E2D",
-      "network": "Cardano"
+      "color": "#3CC8C8",
+      "network": "Cardano",
+      "apy": 3.2,
+      "iconUrl": "https://assets.coingecko.com/coins/images/975/small/cardano.png"
     },
     {
       "id": "avalanche",
@@ -84,7 +99,9 @@
       "change24h": 5.44,
       "address": "X-avax1g3q2cve0r5m7gnhsad92spjagd9wssrxmsy4vj",
       "color": "#E84142",
-      "network": "Avalanche"
+      "network": "Avalanche",
+      "apy": null,
+      "iconUrl": "https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png"
     },
     {
       "id": "dogecoin",
@@ -95,7 +112,9 @@
       "change24h": -2.67,
       "address": "DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L",
       "color": "#C2A633",
-      "network": "Dogecoin"
+      "network": "Dogecoin",
+      "apy": null,
+      "iconUrl": "https://assets.coingecko.com/coins/images/5/small/dogecoin.png"
     },
     {
       "id": "polkadot",
@@ -106,7 +125,9 @@
       "change24h": 1.88,
       "address": "12xtAYsRUrmbniiWQqJtECiBQrMn8AypQcXhnQAc6RB6XkLW",
       "color": "#E6007A",
-      "network": "Polkadot"
+      "network": "Polkadot",
+      "apy": 12.0,
+      "iconUrl": "https://assets.coingecko.com/coins/images/12171/small/polkadot.png"
     },
     {
       "id": "chainlink",
@@ -117,7 +138,9 @@
       "change24h": 3.51,
       "address": "0x742d35Cc6634C0532925a3b8D4C9b3A2e5Bfdb3c",
       "color": "#2A5ADA",
-      "network": "Ethereum (ERC-20)"
+      "network": "Ethereum (ERC-20)",
+      "apy": null,
+      "iconUrl": "https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png"
     }
   ],
   "transactions": [
@@ -275,19 +298,10 @@
     }
   ],
   "exchange": {
-    "recentSwaps": [
-      {
-        "from": "ETH",
-        "to": "SOL",
-        "fromAmount": 0.5,
-        "toAmount": 9.66,
-        "date": "2025-05-17T20:44:00Z"
-      }
-    ]
+    "recentSwaps": []
   },
   "settings": {
     "currency": "USD",
-    "theme": "dark",
     "hideBalance": false,
     "backupDone": true,
     "twoFactor": false

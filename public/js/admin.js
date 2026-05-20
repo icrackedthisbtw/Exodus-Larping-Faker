@@ -84,8 +84,10 @@ function renderAssets() {
         <input class="inline-input narrow" type="number" step="0.01" value="${a.change24h}"
           onchange="wallet.assets[${i}].change24h=parseFloat(this.value);renderStats();"/>
       </td>
+      <td><input class="inline-input narrow" type="number" step="0.1" value="${a.apy ?? ''}" placeholder="—" onchange="wallet.assets[${i}].apy=this.value?parseFloat(this.value):null;"/></td>
       <td><input class="inline-input" value="${a.network || ''}" onchange="wallet.assets[${i}].network=this.value;"/></td>
       <td><input class="inline-input mono wide" value="${a.address}" onchange="wallet.assets[${i}].address=this.value;"/></td>
+      <td><input class="inline-input mono wide" value="${a.iconUrl || ''}" placeholder="https://…" onchange="wallet.assets[${i}].iconUrl=this.value;"/></td>
       <td>
         <button class="btn btn-danger btn-sm" onclick="deleteAsset('${a.id}')">Delete</button>
       </td>

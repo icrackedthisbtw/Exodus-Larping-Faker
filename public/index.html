@@ -11,121 +11,186 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 </head>
 <body>
-
 <div id="app">
 
-  <!-- ── Sidebar ─────────────────────────────────────────────────────── -->
-  <aside id="sidebar">
-    <svg class="logo" viewBox="0 0 40 40" fill="none">
-      <circle cx="20" cy="20" r="20" fill="#8B5CF6"/>
-      <path d="M11 14h18M11 20h12M11 26h18" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
+  <!-- ── Top Nav ─────────────────────────────────────────────────────── -->
+  <nav id="topnav">
+    <!-- Logo + balance -->
+    <div style="display:flex;align-items:center;gap:0;">
+      <a class="nav-logo" href="#" onclick="showView('portfolio');return false;">
+        <!-- Exodus logo SVG -->
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="exg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#8A4FFF"/>
+              <stop offset="100%" stop-color="#0075FF"/>
+            </linearGradient>
+          </defs>
+          <path d="M16 2L30 10V22L16 30L2 22V10L16 2Z" fill="url(#exg)"/>
+          <path d="M10 12H22M10 16H18M10 20H22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <span class="nav-total" id="nav-total" onclick="showView('portfolio')">$0.00</span>
+    </div>
 
-    <button class="nav-btn active" data-view="portfolio">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-      </svg>
-      <span class="tooltip">Portfolio</span>
-    </button>
+    <!-- Center nav -->
+    <div class="nav-center">
+      <button class="nav-tab active" data-view="portfolio" title="Portfolio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </button>
+      <button class="nav-tab" data-view="wallet" title="Wallet">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="5" width="20" height="14" rx="2"/>
+          <path d="M16 12h.01"/>
+          <path d="M2 10h20"/>
+        </svg>
+      </button>
+      <button class="nav-tab" data-view="exchange" title="Exchange">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/>
+          <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
+        </svg>
+      </button>
+      <button class="nav-tab" data-view="settings" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+          <path d="M7 12s0-3 5-3 5 3 5 3-0 3-5 3-5-3-5-3z"/>
+          <circle cx="12" cy="12" r="1"/>
+        </svg>
+      </button>
+      <button class="nav-tab" title="Markets">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+          <polyline points="16 7 22 7 22 13"/>
+        </svg>
+      </button>
+    </div>
 
-    <button class="nav-btn" data-view="wallet">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/>
-        <path d="M16 3.13a4 4 0 010 7.75M18 12h.01"/>
-      </svg>
-      <span class="tooltip">Wallet</span>
-    </button>
+    <!-- Right icons -->
+    <div class="nav-right">
+      <button class="nav-icon-btn" id="hide-btn" title="Hide balances" onclick="toggleHide()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+      <button class="nav-icon-btn" title="History" onclick="showView('portfolio')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+      </button>
+      <button class="nav-icon-btn" title="Settings" onclick="showView('settings')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+        </svg>
+      </button>
+      <a href="/admin.html" class="nav-icon-btn" title="Admin — edit balances">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+          <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+        </svg>
+      </a>
+      <div class="nav-avatar" id="nav-avatar" style="background:#e91e8c;">E</div>
+    </div>
+  </nav>
 
-    <button class="nav-btn" data-view="exchange">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/>
-        <polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/>
-      </svg>
-      <span class="tooltip">Exchange</span>
-    </button>
-
-    <div class="sidebar-spacer"></div>
-
-    <button class="nav-btn" data-view="settings">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"/>
-        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-      </svg>
-      <span class="tooltip">Settings</span>
-    </button>
-  </aside>
-
-  <!-- ── Main ────────────────────────────────────────────────────────── -->
-  <main id="main">
+  <!-- ── Content ─────────────────────────────────────────────────────── -->
+  <div id="content">
 
     <!-- Portfolio View -->
     <div id="portfolio-view" class="view active">
-      <div class="portfolio-header">
-        <div>
-          <div class="portfolio-title">Total Portfolio Value</div>
-          <div class="portfolio-total" id="total-value">$0.00</div>
-          <div class="portfolio-change">
-            <span class="change-pill positive" id="portfolio-change-pill">+0.00%</span>
-            <span class="text-secondary" id="portfolio-change-usd">+$0.00 today</span>
+
+      <!-- Ring chart -->
+      <div class="ring-section">
+        <div class="ring-wrapper">
+          <canvas id="donut-chart" width="340" height="340"></canvas>
+          <div class="ring-center">
+            <span class="rc-label">PORTFOLIO VALUE</span>
+            <div style="display:flex;align-items:baseline;gap:0;">
+              <span class="rc-dollar">$</span>
+              <span class="rc-amount" id="rc-amount">0<span class="rc-cents">.00</span></span>
+            </div>
+            <span class="rc-assets" id="rc-assets">0 Assets</span>
           </div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
-          <button class="btn btn-secondary btn-sm" id="hide-balance-btn" title="Toggle balance visibility">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-          </button>
-          <a href="/admin.html" class="btn btn-secondary btn-sm" title="Open admin panel">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Edit
-          </a>
+
+        <div class="time-selector">
+          <button class="time-btn active" data-period="now">NOW</button>
+          <button class="time-btn" data-period="1m">1M</button>
+          <button class="time-btn" data-period="6m">6M</button>
+          <button class="time-btn" data-period="1y">1Y</button>
+          <button class="time-btn" data-period="all">ALL</button>
         </div>
       </div>
 
-      <div class="portfolio-body">
-        <div class="portfolio-chart-area">
-          <div class="donut-wrapper">
-            <canvas id="donut-chart" width="220" height="220"></canvas>
-            <div class="donut-center">
-              <span class="label">Assets</span>
-              <span class="value" id="donut-count">0</span>
-            </div>
+      <!-- Stats bar -->
+      <div class="stats-bar" id="stats-bar"></div>
+
+      <!-- Asset table -->
+      <div class="table-section">
+        <div class="table-tabs">
+          <button class="table-tab active" data-tab="overview">OVERVIEW</button>
+          <button class="table-tab" data-tab="price">PRICE ACTION</button>
+          <button class="table-tab" data-tab="portfolio">PORTFOLIO</button>
+          <div class="table-filters">
+            <label class="filter-check">
+              <input type="checkbox" id="filter-balance" checked onchange="renderAssetTable()">
+              With balance
+            </label>
+            <label class="filter-check">
+              <input type="checkbox" id="filter-fav">
+              Favorite
+            </label>
           </div>
-          <div class="donut-legend" id="donut-legend"></div>
         </div>
 
-        <div class="assets-panel">
-          <div class="section-label">All Assets</div>
-          <div id="asset-list"></div>
-        </div>
+        <table class="asset-table" id="asset-table">
+          <thead>
+            <tr>
+              <th data-col="name">ASSET NAME <span class="sort-arrow">↕</span></th>
+              <th data-col="apy"><span title="Annual Percentage Yield">?</span> APY REWARDS <span class="sort-arrow">↕</span></th>
+              <th data-col="price">PRICE <span class="sort-arrow">↕</span></th>
+              <th data-col="change">24H CHANGE <span class="sort-arrow">↕</span></th>
+              <th>30 DAY TREND</th>
+              <th data-col="balance">BALANCE <span class="sort-arrow">↕</span></th>
+              <th data-col="value" class="sorted">VALUE <span class="sort-arrow">↓</span></th>
+              <th data-col="pct">PORTFOLIO % <span class="sort-arrow">↕</span></th>
+            </tr>
+          </thead>
+          <tbody id="asset-tbody"></tbody>
+        </table>
       </div>
     </div>
 
     <!-- Wallet / Single Asset View -->
     <div id="wallet-view" class="view">
-      <div class="wallet-header">
-        <button class="back-btn" id="back-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      <div class="wallet-topbar">
+        <button class="btn btn-ghost btn-sm" onclick="backToPortfolio()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
           Back
         </button>
-        <div class="wallet-asset-info" id="wallet-asset-header"></div>
+        <div class="wallet-asset-meta" id="wallet-asset-meta"></div>
+        <div class="wallet-balance-wrap" id="wallet-balance-wrap"></div>
         <div class="wallet-actions">
-          <button class="btn btn-secondary" id="receive-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg>
+          <button class="btn btn-ghost btn-sm" id="receive-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg>
             Receive
           </button>
-          <button class="btn btn-primary" id="send-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <button class="btn btn-primary btn-sm" id="send-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             Send
           </button>
         </div>
       </div>
 
-      <div class="wallet-body scroll-area">
+      <div class="wallet-body">
         <div class="chart-card">
           <div class="chart-top">
             <div>
-              <div class="chart-price" id="chart-price">$0.00</div>
-              <div class="chart-price-change" id="chart-price-change"></div>
+              <div class="chart-price-big" id="chart-price-big">$0.00</div>
+              <div class="chart-price-sub" id="chart-price-sub"></div>
             </div>
             <div class="period-tabs" id="period-tabs">
               <button class="period-tab" data-period="1D">1D</button>
@@ -135,79 +200,65 @@
               <button class="period-tab" data-period="1Y">1Y</button>
             </div>
           </div>
-          <div class="chart-container">
-            <canvas id="price-chart"></canvas>
-          </div>
+          <div class="chart-container"><canvas id="price-chart"></canvas></div>
         </div>
 
-        <div class="section-label" style="margin-bottom:12px;">Transaction History</div>
+        <div class="section-heading">Transaction History</div>
         <div id="tx-list"></div>
       </div>
     </div>
 
     <!-- Exchange View -->
     <div id="exchange-view" class="view">
-      <div style="padding:28px 32px;">
-        <h1 style="font-size:22px;font-weight:700;margin-bottom:4px;">Exchange</h1>
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">Swap one crypto for another instantly.</p>
+      <div class="exchange-wrap">
+        <h2>Exchange</h2>
+        <p>Swap one crypto for another instantly.</p>
 
-        <div class="exchange-card">
-          <div class="swap-box">
-            <div class="swap-label">You Send</div>
-            <div class="swap-row">
-              <button class="swap-asset-btn" id="from-asset-btn">
-                <span class="asset-dot" id="from-dot" style="background:#F7931A;"></span>
-                <span id="from-symbol">BTC</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <input type="number" class="swap-input" id="from-amount" placeholder="0.00" step="any" min="0">
-            </div>
-            <div class="swap-usd" id="from-usd">≈ $0.00</div>
-          </div>
-
-          <div class="swap-switch">
-            <button class="swap-switch-btn" id="swap-switch">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+        <div class="swap-box">
+          <div class="swap-label">You Send</div>
+          <div class="swap-row">
+            <button class="swap-asset-btn" id="from-asset-btn">
+              <img id="from-icon" src="" alt="" onerror="this.style.display='none'">
+              <span id="from-symbol">BTC</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
+            <input type="number" class="swap-input" id="from-amount" placeholder="0.00" step="any" min="0">
           </div>
+          <div class="swap-usd" id="from-usd">≈ $0.00</div>
+        </div>
 
-          <div class="swap-box">
-            <div class="swap-label">You Receive</div>
-            <div class="swap-row">
-              <button class="swap-asset-btn" id="to-asset-btn">
-                <span class="asset-dot" id="to-dot" style="background:#627EEA;"></span>
-                <span id="to-symbol">ETH</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-              </button>
-              <input type="number" class="swap-input" id="to-amount" placeholder="0.00" readonly step="any">
-            </div>
-            <div class="swap-usd" id="to-usd">≈ $0.00</div>
-          </div>
-
-          <div style="margin-top:16px;">
-            <div class="exchange-rate">Exchange rate: <span id="exchange-rate-text">1 BTC = 0.0000 ETH</span></div>
-            <div class="exchange-fee">
-              <span>Network fee</span>
-              <span id="exchange-fee-text">~$0.00</span>
-            </div>
-            <div class="exchange-fee">
-              <span>Exchange fee (0.5%)</span>
-              <span id="exchange-fee2-text">~$0.00</span>
-            </div>
-          </div>
-
-          <button class="btn btn-primary" style="width:100%;margin-top:16px;justify-content:center;" id="exchange-btn">
-            Review Exchange
+        <div class="swap-switch">
+          <button class="swap-switch-btn" id="swap-switch-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
           </button>
         </div>
+
+        <div class="swap-box">
+          <div class="swap-label">You Receive</div>
+          <div class="swap-row">
+            <button class="swap-asset-btn" id="to-asset-btn">
+              <img id="to-icon" src="" alt="" onerror="this.style.display='none'">
+              <span id="to-symbol">ETH</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <input type="number" class="swap-input" id="to-amount" placeholder="0.00" readonly step="any">
+          </div>
+          <div class="swap-usd" id="to-usd">≈ $0.00</div>
+        </div>
+
+        <div class="exchange-info" id="exchange-info"></div>
+
+        <button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px;" id="exchange-btn">
+          Review Exchange
+        </button>
       </div>
     </div>
 
     <!-- Settings View -->
     <div id="settings-view" class="view">
-      <div style="padding:28px 32px;overflow-y:auto;flex:1;">
-        <h1 style="font-size:22px;font-weight:700;margin-bottom:4px;">Settings</h1>
-        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:28px;">Manage your wallet preferences.</p>
+      <div class="settings-inner">
+        <h1>Settings</h1>
+        <p>Manage your wallet preferences.</p>
 
         <div class="settings-section">
           <h3>Security</h3>
@@ -216,19 +267,19 @@
               <div class="settings-row-label">Backup Phrase</div>
               <div class="settings-row-desc">12-word secret recovery phrase</div>
             </div>
-            <button class="btn btn-secondary btn-sm" onclick="showBackupModal()">View Backup</button>
+            <button class="btn btn-ghost btn-sm" onclick="openModal('backup-modal')">View</button>
           </div>
           <div class="settings-row">
             <div>
               <div class="settings-row-label">Two-Factor Authentication</div>
-              <div class="settings-row-desc">Require extra confirmation for transactions</div>
+              <div class="settings-row-desc">Extra confirmation for transactions</div>
             </div>
-            <button class="toggle" id="twofa-toggle" onclick="toggle2FA(this)"></button>
+            <button class="toggle" id="twofa-toggle" onclick="this.classList.toggle('on');toast('2FA '+(this.classList.contains('on')?'enabled':'disabled'),'info')"></button>
           </div>
           <div class="settings-row">
             <div>
               <div class="settings-row-label">Auto-Lock</div>
-              <div class="settings-row-desc">Lock wallet after 5 minutes of inactivity</div>
+              <div class="settings-row-desc">Lock after 5 minutes of inactivity</div>
             </div>
             <button class="toggle on"></button>
           </div>
@@ -241,137 +292,102 @@
               <div class="settings-row-label">Currency</div>
               <div class="settings-row-desc">Display fiat currency</div>
             </div>
-            <select class="form-select" style="width:100px;" id="currency-select">
-              <option value="USD">USD</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-              <option value="JPY">JPY</option>
+            <select class="form-select" style="width:90px;" onchange="toast('Currency set to '+this.value,'info')">
+              <option>USD</option><option>EUR</option><option>GBP</option><option>JPY</option>
             </select>
           </div>
+        </div>
+
+        <div class="settings-section">
+          <h3>Admin</h3>
           <div class="settings-row">
             <div>
-              <div class="settings-row-label">Hide Zero Balances</div>
-              <div class="settings-row-desc">Don't show assets with 0 balance</div>
+              <div class="settings-row-label">Admin Panel</div>
+              <div class="settings-row-desc">Edit balances, prices, transactions, addresses</div>
             </div>
-            <button class="toggle" id="hide-zero-toggle"></button>
+            <a href="/admin.html" class="btn btn-secondary btn-sm">Open</a>
           </div>
         </div>
 
         <div class="settings-section">
           <h3>About</h3>
           <div class="settings-row">
-            <div>
-              <div class="settings-row-label">Version</div>
-            </div>
-            <span class="text-secondary">25.5.20</span>
-          </div>
-          <div class="settings-row">
-            <div>
-              <div class="settings-row-label">Admin Panel</div>
-              <div class="settings-row-desc">Edit balances, prices, and transactions</div>
-            </div>
-            <a href="/admin.html" class="btn btn-secondary btn-sm">Open Admin</a>
+            <div class="settings-row-label">Version</div>
+            <span style="color:var(--text-2);">25.5.20</span>
           </div>
         </div>
       </div>
     </div>
 
-  </main>
-</div>
+  </div><!-- #content -->
+</div><!-- #app -->
 
 <!-- ── Send Modal ─────────────────────────────────────────────────────── -->
 <div class="modal-overlay" id="send-modal">
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        Send <span id="send-modal-symbol">BTC</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Send <span id="send-symbol">BTC</span>
       </div>
       <button class="modal-close" onclick="closeModal('send-modal')">✕</button>
     </div>
-
     <div class="form-group">
       <label class="form-label">Recipient Address</label>
-      <input type="text" class="form-input form-input-mono" id="send-address" placeholder="Enter recipient address...">
+      <input type="text" class="form-input form-input-mono" id="send-address" placeholder="Enter recipient address…">
     </div>
-
     <div class="form-group">
       <label class="form-label">Amount</label>
       <div class="amount-row">
         <input type="number" class="form-input" id="send-amount" placeholder="0.00" step="any" min="0">
-        <button class="amount-toggle" id="send-toggle-currency">USD</button>
+        <button class="amount-toggle" id="send-toggle-btn">USD</button>
       </div>
-      <div class="balance-hint">
-        Available: <span id="send-available" onclick="sendMax()">0.00 BTC</span>
-      </div>
+      <div class="balance-hint">Available: <span id="send-avail" onclick="sendMax()">0</span></div>
     </div>
-
     <div class="form-group">
       <label class="form-label">Network Fee</label>
       <div class="fee-options">
-        <div class="fee-option" onclick="selectFee(this,'slow')">
-          <div class="speed">Slow</div>
-          <div class="time">~60 min</div>
-          <div class="cost" id="fee-slow">$0.00</div>
-        </div>
-        <div class="fee-option active" onclick="selectFee(this,'medium')">
-          <div class="speed">Medium</div>
-          <div class="time">~10 min</div>
-          <div class="cost" id="fee-medium">$0.00</div>
-        </div>
-        <div class="fee-option" onclick="selectFee(this,'fast')">
-          <div class="speed">Fast</div>
-          <div class="time">~2 min</div>
-          <div class="cost" id="fee-fast">$0.00</div>
-        </div>
+        <div class="fee-option" onclick="selectFee(this)"><div class="speed">Slow</div><div class="time">~60 min</div><div class="cost" id="fee-slow">$0.00</div></div>
+        <div class="fee-option active" onclick="selectFee(this)"><div class="speed">Medium</div><div class="time">~10 min</div><div class="cost" id="fee-med">$0.00</div></div>
+        <div class="fee-option" onclick="selectFee(this)"><div class="speed">Fast</div><div class="time">~2 min</div><div class="cost" id="fee-fast">$0.00</div></div>
       </div>
     </div>
-
     <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('send-modal')">Cancel</button>
-      <button class="btn btn-primary" onclick="confirmSend()">
-        Review Send
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
-      </button>
+      <button class="btn btn-ghost" onclick="closeModal('send-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmSend()">Review Send →</button>
     </div>
   </div>
 </div>
 
-<!-- ── Receive Modal ─────────────────────────────────────────────────────── -->
+<!-- ── Receive Modal ──────────────────────────────────────────────────── -->
 <div class="modal-overlay" id="receive-modal">
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg>
-        Receive <span id="receive-modal-symbol">BTC</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29"/></svg>
+        Receive <span id="receive-symbol">BTC</span>
       </div>
       <button class="modal-close" onclick="closeModal('receive-modal')">✕</button>
     </div>
-
-    <div style="text-align:center;margin-bottom:12px;">
-      <span class="network-badge" id="receive-network">Bitcoin Network</span>
+    <div style="text-align:center;margin-bottom:10px;">
+      <span class="network-badge" id="receive-network">—</span>
     </div>
-
-    <div class="qr-wrapper">
-      <canvas id="qr-canvas"></canvas>
-    </div>
-
+    <div class="qr-wrapper"><canvas id="qr-canvas"></canvas></div>
     <div class="form-group" style="margin-top:12px;">
-      <label class="form-label">Your Wallet Address</label>
-      <div class="address-box" id="receive-address-box">—</div>
+      <label class="form-label">Your Address</label>
+      <div class="address-box" id="receive-addr">—</div>
       <button class="copy-btn" id="copy-addr-btn" onclick="copyAddress()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy Address
       </button>
     </div>
-
-    <p style="font-size:12px;color:var(--text-secondary);margin-top:8px;">
-      Only send <strong id="receive-asset-warn">BTC</strong> to this address. Sending any other asset will result in permanent loss.
+    <p style="font-size:11px;color:var(--text-2);margin-top:6px;">
+      Only send <strong id="receive-warn">BTC</strong> to this address. Other assets will be lost.
     </p>
   </div>
 </div>
 
-<!-- ── Transaction Detail Modal ─────────────────────────────────────────── -->
+<!-- ── TX Detail Modal ────────────────────────────────────────────────── -->
 <div class="modal-overlay" id="tx-modal">
   <div class="modal">
     <div class="modal-header">
@@ -379,25 +395,23 @@
       <button class="modal-close" onclick="closeModal('tx-modal')">✕</button>
     </div>
     <div id="tx-modal-body"></div>
-    <div class="modal-actions" style="margin-top:16px;">
-      <button class="btn btn-secondary" onclick="closeModal('tx-modal')">Close</button>
-    </div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('tx-modal')">Close</button></div>
   </div>
 </div>
 
-<!-- ── Asset Picker Modal ─────────────────────────────────────────────────── -->
-<div class="modal-overlay" id="asset-picker-modal">
+<!-- ── Asset Picker Modal ─────────────────────────────────────────────── -->
+<div class="modal-overlay" id="picker-modal">
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Select Asset</div>
-      <button class="modal-close" onclick="closeModal('asset-picker-modal')">✕</button>
+      <button class="modal-close" onclick="closeModal('picker-modal')">✕</button>
     </div>
-    <input type="text" class="form-input" id="asset-search" placeholder="Search assets..." style="margin-bottom:12px;" oninput="filterAssetPicker(this.value)">
-    <div id="asset-picker-list" style="max-height:320px;overflow-y:auto;"></div>
+    <input type="text" class="form-input" id="picker-search" placeholder="Search…" oninput="filterPicker(this.value)" style="margin-bottom:10px;">
+    <div id="picker-list" style="max-height:300px;overflow-y:auto;"></div>
   </div>
 </div>
 
-<!-- ── Exchange Confirm Modal ─────────────────────────────────────────────── -->
+<!-- ── Exchange Confirm Modal ─────────────────────────────────────────── -->
 <div class="modal-overlay" id="exchange-confirm-modal">
   <div class="modal">
     <div class="modal-header">
@@ -406,30 +420,49 @@
     </div>
     <div id="exchange-confirm-body"></div>
     <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('exchange-confirm-modal')">Cancel</button>
+      <button class="btn btn-ghost" onclick="closeModal('exchange-confirm-modal')">Cancel</button>
       <button class="btn btn-primary" onclick="executeExchange()">Confirm Exchange</button>
     </div>
   </div>
 </div>
 
-<!-- ── Backup Modal ─────────────────────────────────────────────────────── -->
+<!-- ── Backup Modal ───────────────────────────────────────────────────── -->
 <div class="modal-overlay" id="backup-modal">
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title">Secret Recovery Phrase</div>
       <button class="modal-close" onclick="closeModal('backup-modal')">✕</button>
     </div>
-    <div style="background:var(--red-dim);border:1px solid rgba(244,85,50,0.3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:13px;color:var(--red);">
-      ⚠ Never share your secret phrase with anyone. Anyone with this phrase can access your wallet.
+    <div style="background:var(--red-dim);border:1px solid rgba(244,85,50,0.3);border-radius:8px;padding:10px 12px;margin-bottom:14px;font-size:12px;color:var(--red);">
+      ⚠ Never share this phrase. Anyone with it controls your wallet.
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;" id="backup-phrase-grid"></div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeModal('backup-modal')">Close</button>
-    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;" id="phrase-grid"></div>
+    <div class="modal-actions"><button class="btn btn-ghost" onclick="closeModal('backup-modal')">Close</button></div>
   </div>
 </div>
 
-<!-- Toast container -->
+<!-- ── Quick Edit popup ────────────────────────────────────────────────── -->
+<div id="quick-edit-popup" style="display:none;position:fixed;z-index:600;background:var(--bg-modal);border:1px solid var(--border-focus);border-radius:10px;padding:14px 16px;box-shadow:var(--shadow);width:240px;">
+  <div style="font-size:12px;font-weight:700;margin-bottom:10px;" id="qe-title">Edit</div>
+  <div class="form-group" style="margin-bottom:10px;">
+    <label class="form-label">Balance</label>
+    <input type="number" class="form-input" id="qe-balance" step="any" min="0">
+  </div>
+  <div class="form-group" style="margin-bottom:10px;">
+    <label class="form-label">Price (USD)</label>
+    <input type="number" class="form-input" id="qe-price" step="any" min="0">
+  </div>
+  <div class="form-group" style="margin-bottom:12px;">
+    <label class="form-label">24h Change %</label>
+    <input type="number" class="form-input" id="qe-change" step="0.01">
+  </div>
+  <div style="display:flex;gap:6px;">
+    <button class="btn btn-ghost btn-xs" onclick="closeQuickEdit()" style="flex:1;">Cancel</button>
+    <button class="btn btn-primary btn-xs" onclick="saveQuickEdit()" style="flex:1;">Save</button>
+  </div>
+</div>
+<div id="qe-overlay" style="display:none;position:fixed;inset:0;z-index:550;" onclick="closeQuickEdit()"></div>
+
 <div id="toast-container"></div>
 
 <script src="/js/utils.js"></script>

@@ -10,6 +10,7 @@ const DATA_FILE = path.join(__dirname, 'data', 'wallet.json');
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/icons', express.static(path.join(__dirname, 'node_modules/cryptocurrency-icons/svg/color')));
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 

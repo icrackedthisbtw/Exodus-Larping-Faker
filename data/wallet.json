@@ -23,7 +23,7 @@
       "color": "#F7931A",
       "network": "Bitcoin",
       "apy": null,
-      "iconUrl": "https://assets.coingecko.com/coins/images/1/small/bitcoin.png"
+      "iconUrl": "/icons/btc.svg"
     },
     {
       "id": "ethereum",
@@ -36,7 +36,7 @@
       "color": "#627EEA",
       "network": "Ethereum",
       "apy": 1.8,
-      "iconUrl": "https://assets.coingecko.com/coins/images/279/small/ethereum.png"
+      "iconUrl": "/icons/eth.svg"
     },
     {
       "id": "solana",
@@ -49,46 +49,46 @@
       "color": "#9945FF",
       "network": "Solana",
       "apy": 5.4,
-      "iconUrl": "https://assets.coingecko.com/coins/images/4128/small/solana.png"
+      "iconUrl": "/icons/sol.svg"
     },
     {
       "id": "xrp",
       "symbol": "XRP",
       "name": "XRP",
-      "balance": 2450.0,
+      "balance": 2450,
       "priceUSD": 0.6124,
       "change24h": -1.34,
       "address": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
       "color": "#346AA9",
       "network": "XRP Ledger",
       "apy": null,
-      "iconUrl": "https://assets.coingecko.com/coins/images/44/small/xrp-symbol-white-128.png"
+      "iconUrl": "/icons/xrp.svg"
     },
     {
       "id": "usdt",
       "symbol": "USDT",
       "name": "Tether",
-      "balance": 3200.0,
-      "priceUSD": 1.0,
+      "balance": 3200,
+      "priceUSD": 1,
       "change24h": 0.02,
       "address": "0x742d35Cc6634C0532925a3b8D4C9b3A2e5Bfdb3c",
       "color": "#26A17B",
       "network": "Ethereum (ERC-20)",
       "apy": null,
-      "iconUrl": "https://assets.coingecko.com/coins/images/325/small/Tether.png"
+      "iconUrl": "/icons/usdt.svg"
     },
     {
       "id": "cardano",
       "symbol": "ADA",
       "name": "Cardano",
-      "balance": 5820.0,
+      "balance": 5820,
       "priceUSD": 0.4621,
       "change24h": 2.15,
       "address": "addr1qx2fxv2umyhttkxyxp8x0dlpdt3k6cwng5pxj3jhsydzer3jcu5d8ps7zex2k2xt3uqxgjqnnj83ws8lhrn648jjxtwqfjkjv7",
       "color": "#3CC8C8",
       "network": "Cardano",
       "apy": 3.2,
-      "iconUrl": "https://assets.coingecko.com/coins/images/975/small/cardano.png"
+      "iconUrl": "/icons/ada.svg"
     },
     {
       "id": "avalanche",
@@ -101,46 +101,46 @@
       "color": "#E84142",
       "network": "Avalanche",
       "apy": null,
-      "iconUrl": "https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png"
+      "iconUrl": "/icons/avax.svg"
     },
     {
       "id": "dogecoin",
       "symbol": "DOGE",
       "name": "Dogecoin",
-      "balance": 12500.0,
+      "balance": 12500,
       "priceUSD": 0.1823,
       "change24h": -2.67,
       "address": "DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L",
       "color": "#C2A633",
       "network": "Dogecoin",
       "apy": null,
-      "iconUrl": "https://assets.coingecko.com/coins/images/5/small/dogecoin.png"
+      "iconUrl": "/icons/doge.svg"
     },
     {
       "id": "polkadot",
       "symbol": "DOT",
       "name": "Polkadot",
-      "balance": 215.0,
+      "balance": 215,
       "priceUSD": 8.43,
       "change24h": 1.88,
       "address": "12xtAYsRUrmbniiWQqJtECiBQrMn8AypQcXhnQAc6RB6XkLW",
       "color": "#E6007A",
       "network": "Polkadot",
-      "apy": 12.0,
-      "iconUrl": "https://assets.coingecko.com/coins/images/12171/small/polkadot.png"
+      "apy": 12,
+      "iconUrl": "/icons/dot.svg"
     },
     {
       "id": "chainlink",
       "symbol": "LINK",
       "name": "Chainlink",
-      "balance": 180.0,
+      "balance": 180,
       "priceUSD": 14.22,
       "change24h": 3.51,
       "address": "0x742d35Cc6634C0532925a3b8D4C9b3A2e5Bfdb3c",
       "color": "#2A5ADA",
       "network": "Ethereum (ERC-20)",
       "apy": null,
-      "iconUrl": "https://assets.coingecko.com/coins/images/877/small/chainlink-new-logo.png"
+      "iconUrl": "/icons/link.svg"
     }
   ],
   "transactions": [
@@ -178,8 +178,8 @@
       "id": "tx_003",
       "assetId": "solana",
       "type": "exchanged",
-      "amount": 10.0,
-      "valueUSD": 1823.30,
+      "amount": 10,
+      "valueUSD": 1823.3,
       "from": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgHkv",
       "to": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgHkv",
       "txHash": "5bRLhBLHfCf6xwPaahBv2kB5Z3g7VuHLaVhbVFmR9xKZ",
@@ -210,8 +210,8 @@
       "id": "tx_005",
       "assetId": "usdt",
       "type": "received",
-      "amount": 1000.0,
-      "valueUSD": 1000.0,
+      "amount": 1000,
+      "valueUSD": 1000,
       "from": "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
       "to": "0x742d35Cc6634C0532925a3b8D4C9b3A2e5Bfdb3c",
       "txHash": "0x9988776655443322110099887766554433221100998877665544332211009988",
@@ -240,23 +240,23 @@
       "id": "tx_007",
       "assetId": "dogecoin",
       "type": "sent",
-      "amount": 5000.0,
-      "valueUSD": 911.50,
+      "amount": 5000,
+      "valueUSD": 911.5,
       "from": "DH5yaieqoZN36fDVciNyRueRGvGLR3mr7L",
       "to": "D6fTdQ7T7jNQ2GDBU1ZXd9PQRkM5LyXTf6",
       "txHash": "doge1234567890abcdef1234567890abcdef1234567890abcdef1234567890ab",
       "timestamp": "2025-05-10T13:45:00Z",
       "status": "confirmed",
       "confirmations": 1500,
-      "fee": 1.0,
+      "fee": 1,
       "memo": "Sent to exchange"
     },
     {
       "id": "tx_008",
       "assetId": "xrp",
       "type": "received",
-      "amount": 1000.0,
-      "valueUSD": 612.40,
+      "amount": 1000,
+      "valueUSD": 612.4,
       "from": "rN7n3473SaZBCG4dFL83w7PB5AMgGkVPKC",
       "to": "rHb9CJAWyB4rj91VRWn96DkukG4bwdtyTh",
       "txHash": "xrp1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd",

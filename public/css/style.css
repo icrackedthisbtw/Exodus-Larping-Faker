@@ -374,39 +374,16 @@ body {
 
 .asset-table tr:hover td { background: var(--bg-row-hover); cursor: pointer; }
 
-/* Coin icon (hexagonal clip) */
+/* Coin icon — simple circle, built entirely in JS */
 .coin-icon-wrap {
-  width: 36px;
-  height: 36px;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.coin-hex-bg {
-  width: 36px;
-  height: 36px;
-  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.coin-hex-bg img {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-.coin-fallback {
-  width: 22px;
-  height: 22px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-  color: #fff;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .asset-name-cell {
@@ -456,6 +433,31 @@ body {
 .pct-bar-track { flex: 1; height: 3px; background: var(--text-3); border-radius: 2px; overflow: hidden; max-width: 60px; }
 .pct-bar-fill  { height: 100%; border-radius: 2px; }
 .pct-label { font-size: 12px; color: var(--text-2); min-width: 36px; text-align: right; }
+
+/* Row edit button */
+.edit-row-btn {
+  opacity: 0;
+  background: var(--bg-row-hover);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text-2);
+  font-size: 13px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.12s;
+  flex-shrink: 0;
+  padding: 0;
+  font-family: var(--font);
+}
+.asset-table tr:hover .edit-row-btn { opacity: 1; }
+.edit-row-btn:hover { background: var(--accent-glow); border-color: var(--border-focus); color: var(--accent-light); }
+
+/* Clickable cells hint */
+.price-cell:hover, .balance-cell:hover { color: var(--accent-light) !important; }
 
 /* ── Wallet (single asset) view ─────────────────────────────────────────── */
 #wallet-view { flex-direction: column; overflow: hidden; }

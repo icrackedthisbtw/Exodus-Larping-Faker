@@ -210,45 +210,81 @@ function renderAssetTable() {
   tbody.innerHTML = '';
 
   assets.forEach(asset => {
-    const val   = asset.balance * asset.priceUSD;
-    const pct   = total > 0 ? (val / total * 100) : 0;
-    const isPos = asset.change24h >= 0;
+    const val    = asset.balance * asset.priceUSD;
+    const pct    = total > 0 ? (val / total * 100) : 0;
+    const isPos  = asset.change24h >= 0;
     const sparkId = `spark_${asset.id}`;
 
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>
-        <div class="asset-name-cell">
-          <div class="coin-icon-wrap">
-            <div class="coin-hex-bg" style="background:${hexToRgba(asset.color, 0.15)};">
-              ${asset.iconUrl
-                ? `<img src="${asset.iconUrl}" alt="${asset.symbol}" onerror="this.parentNode.innerHTML='<div class=\\"coin-fallback\\" style=\\"background:${asset.color};\\">'+asset.symbol.charAt(0)+'</div>'">`
-                : `<div class="coin-fallback" style="background:${asset.color};">${asset.symbol.charAt(0)}</div>`
-              }
-            </div>
-          </div>
-          <div class="asset-name-text">
-            <div class="name">${asset.name}</div>
-            <div class="symbol">${asset.symbol}</div>
-          </div>
-        </div>
-      </td>
+    tr.dataset.id = asset.id;
+
+    // ── Name cell ──────────────────────────────────────────────────────
+    const tdName = document.createElement('td');
+    const nameCell = document.createElement('div');
+    nameCell.className = 'asset-name-cell';
+
+    // Icon — built in JS to avoid any HTML attribute escaping bugs
+    const iconWrap = document.createElement('div');
+    iconWrap.className = 'coin-icon-wrap';
+    iconWrap.style.cssText = `width:38px;height:38px;border-radius:50%;background:${hexToRgba(asset.color,0.15)};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;`;
+
+    if (asset.iconUrl) {
+      const img = document.createElement('img');
+      img.src = asset.iconUrl;
+      img.alt = asset.symbol;
+      img.style.cssText = 'width:26px;height:26px;object-fit:contain;';
+      img.onerror = function() {
+        this.style.display = 'none';
+        const fb = document.createElement('span');
+        fb.textContent = asset.symbol.charAt(0);
+        fb.style.cssText = `font-weight:700;font-size:15px;color:${asset.color};`;
+        iconWrap.appendChild(fb);
+      };
+      iconWrap.appendChild(img);
+    } else {
+      const fb = document.createElement('span');
+      fb.textContent = asset.symbol.charAt(0);
+      fb.style.cssText = `font-weight:700;font-size:15px;color:${asset.color};`;
+      iconWrap.appendChild(fb);
+    }
+
+    const nameText = document.createElement('div');
+    nameText.className = 'asset-name-text';
+    nameText.innerHTML = `<div class="name">${asset.name}</div><div class="symbol">${asset.symbol}</div>`;
+
+    nameCell.appendChild(iconWrap);
+    nameCell.appendChild(nameText);
+    tdName.appendChild(nameCell);
+
+    // ── Remaining cells ────────────────────────────────────────────────
+    tr.appendChild(tdName);
+    tr.innerHTML += `
       <td>${asset.apy ? `<span class="apy-badge">${asset.apy}% APY</span>` : '<span style="color:var(--text-3);">—</span>'}</td>
-      <td class="price-cell">${fmt.usd(asset.priceUSD)} USD</td>
+      <td class="price-cell" style="cursor:pointer;" title="Click to edit price">${fmt.usd(asset.priceUSD)} <span style="color:var(--text-3);">USD</span></td>
       <td class="change-cell ${isPos ? 'up' : 'down'}">${isPos ? '+' : ''}${asset.change24h.toFixed(2)}%</td>
       <td class="sparkline-cell"><canvas id="${sparkId}" class="sparkline-canvas" width="110" height="40"></canvas></td>
-      <td class="balance-cell" style="color:${asset.color};">${hideBalance ? '••••' : fmt.crypto(asset.balance, asset.symbol)}</td>
+      <td class="balance-cell" style="color:${asset.color};cursor:pointer;" title="Click to edit balance">${hideBalance ? '••••' : fmt.crypto(asset.balance, asset.symbol)}</td>
       <td class="value-cell">${hideBalance ? '••••' : fmt.usd(val)}</td>
       <td class="pct-cell">
-        <div class="pct-bar-row">
+        <div style="display:flex;align-items:center;gap:8px;">
           <div class="pct-bar-track"><div class="pct-bar-fill" style="width:${Math.min(pct,100)}%;background:${asset.color};"></div></div>
           <span class="pct-label">${pct.toFixed(1)}%</span>
+          <button class="edit-row-btn" data-id="${asset.id}" title="Edit balance, price & change" onclick="event.stopPropagation();openQuickEdit('${asset.id}',this.closest('tr'))">✎</button>
         </div>
       </td>`;
 
-    tr.addEventListener('click', () => openAsset(asset.id));
-    tr.addEventListener('dblclick', e => { e.stopPropagation(); openQuickEdit(asset.id, tr); });
-    tr.title = 'Click to view · Double-click to quick edit';
+    // Click row → open asset view; click price/balance cells → quick edit
+    tr.addEventListener('click', (e) => {
+      if (e.target.classList.contains('edit-row-btn')) return;
+      if (e.target.classList.contains('price-cell') || e.target.closest('.price-cell')) {
+        openQuickEdit(asset.id, tr); return;
+      }
+      if (e.target.classList.contains('balance-cell') || e.target.closest('.balance-cell')) {
+        openQuickEdit(asset.id, tr); return;
+      }
+      openAsset(asset.id);
+    });
+
     tbody.appendChild(tr);
   });
 
@@ -277,10 +313,14 @@ function openQuickEdit(id, row) {
 
   const popup = document.getElementById('quick-edit-popup');
   const rect  = row.getBoundingClientRect();
+  // Position: prefer below row, clamp to viewport
+  const top  = Math.min(rect.bottom + 6, window.innerHeight - 280);
+  const left = Math.max(Math.min(rect.right - 260, window.innerWidth - 270), 10);
   popup.style.display = 'block';
-  popup.style.top  = Math.min(rect.bottom + 4, window.innerHeight - 260) + 'px';
-  popup.style.left = Math.max(rect.left, 10) + 'px';
+  popup.style.top  = top + 'px';
+  popup.style.left = left + 'px';
   document.getElementById('qe-overlay').style.display = 'block';
+  setTimeout(() => document.getElementById('qe-balance').select(), 50);
 }
 
 window.closeQuickEdit = function() {
@@ -327,16 +367,26 @@ function renderWalletHeader() {
   const val = a.balance * a.priceUSD;
   const isPos = a.change24h >= 0;
 
-  document.getElementById('wallet-asset-meta').innerHTML = `
-    <div class="coin-icon-wrap" style="width:42px;height:42px;">
-      <div class="coin-hex-bg" style="background:${hexToRgba(a.color, 0.15)};width:42px;height:42px;">
-        ${a.iconUrl ? `<img src="${a.iconUrl}" alt="${a.symbol}" style="width:26px;height:26px;border-radius:50%;object-fit:contain;">` : ''}
-      </div>
-    </div>
-    <div class="wallet-asset-name-wrap">
-      <div class="asset-full-name">${a.name}</div>
-      <div class="asset-sym">${a.symbol} · <span class="${isPos ? 'text-green' : 'text-red'}">${isPos ? '+' : ''}${a.change24h.toFixed(2)}%</span></div>
-    </div>`;
+  const meta = document.getElementById('wallet-asset-meta');
+  meta.innerHTML = '';
+
+  const wi = document.createElement('div');
+  wi.style.cssText = `width:42px;height:42px;border-radius:50%;background:${hexToRgba(a.color,0.15)};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;`;
+  if (a.iconUrl) {
+    const img = document.createElement('img');
+    img.src = a.iconUrl; img.alt = a.symbol;
+    img.style.cssText = 'width:28px;height:28px;object-fit:contain;';
+    img.onerror = function() { this.style.display='none'; wi.innerHTML=`<span style="font-weight:700;font-size:18px;color:${a.color};">${a.symbol.charAt(0)}</span>`; };
+    wi.appendChild(img);
+  } else {
+    wi.innerHTML = `<span style="font-weight:700;font-size:18px;color:${a.color};">${a.symbol.charAt(0)}</span>`;
+  }
+  meta.appendChild(wi);
+
+  const nameDiv = document.createElement('div');
+  nameDiv.className = 'wallet-asset-name-wrap';
+  nameDiv.innerHTML = `<div class="asset-full-name">${a.name}</div><div class="asset-sym">${a.symbol} · <span class="${isPos ? 'text-green' : 'text-red'}">${isPos ? '+' : ''}${a.change24h.toFixed(2)}%</span></div>`;
+  meta.appendChild(nameDiv);
 
   document.getElementById('wallet-balance-wrap').innerHTML = `
     <div class="wb-crypto" style="color:${a.color};">${hideBalance ? '••••' : fmt.crypto(a.balance, a.symbol)}</div>
@@ -570,21 +620,37 @@ function openPicker(target) {
 }
 
 function renderPicker(filter) {
+  const list = document.getElementById('picker-list');
+  list.innerHTML = '';
   const assets = wallet.assets.filter(a =>
     a.name.toLowerCase().includes(filter.toLowerCase()) ||
     a.symbol.toLowerCase().includes(filter.toLowerCase())
   );
-  document.getElementById('picker-list').innerHTML = assets.map(a => `
-    <div class="picker-row" onclick="pickAsset('${a.id}')">
-      <div class="coin-hex-bg" style="background:${hexToRgba(a.color,0.15)};width:32px;height:32px;border-radius:50%;">
-        ${a.iconUrl ? `<img src="${a.iconUrl}" style="width:20px;height:20px;border-radius:50%;object-fit:contain;">` : `<div style="width:20px;height:20px;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;">${a.symbol.charAt(0)}</div>`}
-      </div>
-      <div style="flex:1;">
-        <div style="font-size:13px;font-weight:600;">${a.name}</div>
-        <div style="font-size:11px;color:var(--text-2);">${a.symbol} · ${fmt.usd(a.priceUSD)}</div>
-      </div>
-      <div style="font-size:12px;color:${a.color};">${fmt.crypto(a.balance, a.symbol)}</div>
-    </div>`).join('');
+
+  assets.forEach(a => {
+    const row = document.createElement('div');
+    row.className = 'picker-row';
+    row.onclick = () => pickAsset(a.id);
+
+    // Icon
+    const iconDiv = document.createElement('div');
+    iconDiv.style.cssText = `width:32px;height:32px;border-radius:50%;background:${hexToRgba(a.color,0.15)};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;`;
+    if (a.iconUrl) {
+      const img = document.createElement('img');
+      img.src = a.iconUrl; img.alt = a.symbol;
+      img.style.cssText = 'width:20px;height:20px;object-fit:contain;';
+      img.onerror = function() { this.style.display='none'; iconDiv.innerHTML=`<span style="font-weight:700;font-size:12px;color:${a.color};">${a.symbol.charAt(0)}</span>`; };
+      iconDiv.appendChild(img);
+    } else {
+      iconDiv.innerHTML = `<span style="font-weight:700;font-size:12px;color:${a.color};">${a.symbol.charAt(0)}</span>`;
+    }
+
+    row.appendChild(iconDiv);
+    row.innerHTML += `
+      <div style="flex:1;"><div style="font-size:13px;font-weight:600;">${a.name}</div><div style="font-size:11px;color:var(--text-2);">${a.symbol} · ${fmt.usd(a.priceUSD)}</div></div>
+      <div style="font-size:12px;color:${a.color};">${fmt.crypto(a.balance, a.symbol)}</div>`;
+    list.appendChild(row);
+  });
 }
 
 window.filterPicker = function(q) { renderPicker(q); };
